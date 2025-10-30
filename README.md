@@ -30,7 +30,7 @@ The preprocessing function takes the keypoints identified by YUNet and extracts 
 
 Usage of AudioIO to retrieve audio and video simultaneously in openCV
 Here is a piece of code to extract the audio and video simultaneously frame by frame in OpenCV using CAP_MSMF.
-
+```
 import numpy as np
 import cv2 as cv
 source = 'test.mp4' # pass 0 to read from webcam
@@ -53,5 +53,5 @@ if cap.isOpened():
         audioFrame = cap.retrieve(audioFrame, audioBaseIndex)
         audioFrame = audioFrame[1][0] if audioFrame is not None else None
         # process video and audio here
-
+```
 The goals included an OpenCV sample for AV speech-recognition using AudioIO module and a pre-trained onnx model running in real time. The "Real time" part is constrained by the compute power of the system. However the video file inference in opencv works at par with the torch model. In the future, we can try to work on tyhe AVHuber model and trying to rewrite the whole config og the model while preserving the weights to export it to ONNX.
