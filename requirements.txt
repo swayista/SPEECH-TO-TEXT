@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+deepgram-sdk==5.3.0
+openai
+spacy
+python-dotenv
+python-multipart
+streamlit
