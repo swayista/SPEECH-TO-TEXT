@@ -1,15 +1,15 @@
 # GRAMMER-GURU
 ### PIPELINE
 ```
-🎤 Voice Sample (.wav)
+ Voice Sample (.wav)
      ↓
-🧠 Deepgram STT → transcript
+ Deepgram STT → transcript
      ↓
-🔍 spaCy preprocessing + rule-based grammar analysis
+ spaCy preprocessing + rule-based grammar analysis
      ↓
-🤖  LLM → grammar score + natural feedback
+  LLM → grammar score + natural feedback
      ↓
-📦 JSON Response (score, feedback, transcript)
+ JSON Response (score, feedback, transcript)
 ```
 
 
@@ -20,7 +20,7 @@ conda activate grammer-guru
 python -m spacy download en_core_web_sm
 uvicorn app.main:app --reload
 streamlit run frontend/main.py
-docker compose up -d # Don't run in your local as you don't have docker installed
+docker compose up -d 
 ```
 
 ### Run LLAMA.CPP without docker

@@ -13,9 +13,9 @@ import re
 
 load_dotenv()
 
-# -------------------------
-# 🔧 Environment Setup
-# -------------------------
+
+#  Environment Setup
+
 DG_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 LLM_API_URL = os.getenv("LLM_API_URL")
 LLM_API_KEY = os.getenv("LLM_API_KEY")
@@ -23,7 +23,7 @@ LLM_API_KEY = os.getenv("LLM_API_KEY")
 if not DG_API_KEY or not LLM_API_URL or not LLM_API_KEY :
     raise RuntimeError("Please set DEEPGRAM_API_KEY and OPENAI_API_KEY environment variables")
 
-# ✅ Initialize clients
+#  Initialize clients
 dg_client = DeepgramClient(api_key=DG_API_KEY)
 # openai_client = OpenAI(api_key=OPENAI_API_KEY)
 nlp = spacy.load("en_core_web_sm")
@@ -31,21 +31,21 @@ nlp = spacy.load("en_core_web_sm")
 app = FastAPI(title="Grammar Scoring Engine (Voice → Grammar Feedback)")
 
 
-# -------------------------
-# 🧠 Helper Functions
-# -------------------------
+
+#  Helper Functions
+
 
 
 async def transcribe_audio(file_path: str, mimetype: str) -> str:
     """Transcribe local file (SDK v5.x)"""
     with open(file_path, "rb") as f:
-        # v5 file transcription (NOTE: request is raw bytes)
+        # v5 file transcription 
         resp = dg_client.listen.v1.media.transcribe_file(
             request=f.read(),
-            model="nova-3",          # or "nova-2" if you prefer
+            model="nova-3",          
             smart_format=True,
             punctuate=True,
-            # no need to pass mimetype here in v5; server infers it
+            
         )
 
     # Support both object-style and dict-style responses
@@ -93,14 +93,14 @@ def generate_feedback(text: str) -> dict:
         result = response.json()
         content = result["choices"][0]["message"]["content"]
 
-        # 🧹 Step 1: Extract JSON from response (ignore <think> blocks)
+        # Step 1: Extract JSON from response (ignore <think> blocks)
         json_match = re.search(r'\{.*\}', content, re.DOTALL)
         if not json_match:
             return {"score": None, "feedback": content.strip()}
 
         json_str = json_match.group(0)
 
-        # 🧠 Step 2: Parse and clean
+        # Step 2: Parse and clean
         parsed = json.loads(json_str)
         score = parsed.get("score")
         feedback = parsed.get("feedback", "").strip()
@@ -121,8 +121,8 @@ def preprocess_text(text: str) -> str:
         tokens = [t.text for t in sent if t.text.lower() not in fillers]
         sentence = " ".join(tokens)
 
-        # --- 🧹 Fix common spacing issues ---
-        sentence = re.sub(r"\s+([.,!?;:])", r"\1", sentence)  # remove space before punctuation
+        # Fix common spacing issues 
+        sentence = re.sub(r"\s+([.,!?;:])", r"\1", sentence)  # removing space before punctuation
         sentence = re.sub(r"\s+'", "'", sentence)              # fix spaces before apostrophes
         sentence = re.sub(r"'\s+", "'", sentence)              # fix spaces after apostrophes
         sentence = re.sub(r'\s+"', '"', sentence)              # fix spaces before quotes
@@ -137,9 +137,9 @@ def preprocess_text(text: str) -> str:
     return cleaned_text
 
 
-# -------------------------
-# 🚀 API Endpoint
-# -------------------------
+
+#  API Endpoint
+
 
 @app.post("/analyze")
 async def analyze_audio(file: UploadFile):
