@@ -1,4 +1,4 @@
-# GRAMMER-GURU
+
 ### PIPELINE
 ```
  Voice Sample (.wav)
