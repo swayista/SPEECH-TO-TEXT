@@ -15,13 +15,14 @@ st.set_page_config(page_title="Grammar Scoring Engine")
 st.title(" Grammar Scoring Engine (Voice → Grammar Feedback)")
 st.write("Upload a voice sample — we’ll transcribe it, clean it, and evaluate its grammar using Deepgram + spaCy + Qwen3 LLaMA.")
 
-uploaded_file = st.file_uploader("🎤 Upload your audio file", type=["wav", "mp3", "m4a", "webm", "ogg"])
+uploaded_file = st.file_uploader(" Upload your audio file", type=["wav", "mp3", "m4a", "webm", "ogg"])
 
 if uploaded_file:
     st.audio(uploaded_file, format="audio/mp3")
 
     if st.button("Analyze Grammar"):
-        with st.spinner("Processing your audio... please wait ⏳"):
+        with st.spinner("Processing your audio... please wait []'
+        "):
             try:
                 # Sending file to FastAPI
                 files = {"file": (uploaded_file.name, uploaded_file, uploaded_file.type)}
